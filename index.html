@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shengdong Yao — Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #f8f5f0; --white: #ffffff; --stone: #e8e2d9; --warm: #c9bfb0;
+      --text: #2c2825; --muted: #8a7f74; --footer: #7a6e7e; --accent: #9b8fa0;
+      --max: 1160px; --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Jost', sans-serif;
+    }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--text); font-family: var(--sans); font-weight: 300; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; width: 100%; object-fit: cover; }
+
+    /* NAV */
+    nav { position: absolute; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 1.4rem 3rem; }
+    .nav-logo { font-family: var(--serif); font-weight: 400; font-size: 1.15rem; color: #fff; letter-spacing: 0.04em; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { font-family: var(--sans); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.85); transition: color 0.2s; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta { border: 1px solid rgba(255,255,255,0.7); padding: 0.4rem 1.1rem; border-radius: 2px; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: #fff; }
+    .mobile-nav { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(44,40,37,0.97); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; color: #fff; }
+    .mobile-close { position: absolute; top: 1.5rem; right: 2rem; font-size: 1.5rem; color: #fff; background: none; border: none; cursor: pointer; }
+
+    /* HERO */
+    .hero { position: relative; height: 100svh; min-height: 520px; max-height: 900px; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .hero-gradient { position: absolute; inset: 0; background: linear-gradient(135deg, #3d3550 0%, #5c4a5a 25%, #8a6060 50%, #c49878 75%, #e8c9a0 100%); }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(30,24,28,0.65) 40%, rgba(30,24,28,0.05) 100%); }
+    .hero-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 3rem 5rem; max-width: var(--max); margin: 0 auto; animation: heroIn 1s ease both; }
+    .hero-eyebrow { font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; }
+    .hero-title { font-family: var(--serif); font-weight: 300; font-size: clamp(3rem, 7vw, 5.5rem); color: #fff; line-height: 1.08; max-width: 560px; }
+    .hero-title em { font-style: italic; }
+    .hero-buttons { margin-top: 2.2rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn { font-family: var(--sans); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1.8rem; border-radius: 2px; cursor: pointer; transition: all 0.25s; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-outline { border: 1px solid rgba(255,255,255,0.75); color: #fff; background: transparent; }
+    .btn-outline:hover { background: rgba(255,255,255,0.15); }
+    .btn-ghost { border: 1px solid rgba(255,255,255,0.35); color: rgba(255,255,255,0.8); background: transparent; }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.7); color: #fff; }
+    .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; opacity: 0.45; animation: bounce 2.2s ease infinite; }
+    .scroll-hint span { font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: #fff; }
+    .scroll-arrow { width: 1px; height: 32px; background: #fff; }
+
+    /* SECTIONS */
+    .inner { max-width: var(--max); margin: 0 auto; padding: 0 3rem; }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-eyebrow { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--warm); display: block; margin-bottom: 0.8rem; }
+    .section-title { font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 300; }
+    .section-sub { margin-top: 0.8rem; font-size: 0.88rem; color: var(--muted); max-width: 420px; margin-left: auto; margin-right: auto; }
+    .divider { width: 36px; height: 1px; background: var(--warm); margin: 1.4rem auto 0; }
+
+    /* FEATURED */
+    .featured-wrap { padding: 5rem 3rem 0; }
+    .featured { display: grid; grid-template-columns: 1fr 1fr; background: var(--white); box-shadow: 0 4px 32px rgba(0,0,0,0.07); overflow: hidden; border-radius: 2px; cursor: pointer; }
+    .featured:hover .featured-img-ph { filter: brightness(0.95); }
+    .featured-img-ph { height: 520px; transition: filter 0.3s; }
+    .ph-hero { background: linear-gradient(160deg, #bfb0a8 0%, #9e8c88 40%, #c5ae9a 100%); }
+    .featured-body { padding: 3.5rem 3rem; display: flex; flex-direction: column; justify-content: center; }
+    .post-cat { font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .post-title { font-family: var(--serif); font-size: clamp(1.5rem, 2.5vw, 2.1rem); font-weight: 400; line-height: 1.2; margin-bottom: 1.2rem; }
+    .post-title em { font-style: italic; }
+    .post-excerpt { font-size: 0.88rem; color: var(--muted); line-height: 1.75; margin-bottom: 2rem; }
+    .btn-read { font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: #fff; background: var(--footer); border: none; padding: 0.75rem 2rem; border-radius: 30px; cursor: pointer; transition: background 0.25s; align-self: flex-start; display: inline-block; }
+    .btn-read:hover { background: var(--accent); }
+    .post-meta { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--stone); display: flex; gap: 1.5rem; font-size: 0.75rem; color: var(--warm); }
+
+    /* GRID */
+    .grid-section { padding: 5rem 3rem; }
+    .post-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+    .post-card { background: var(--white); overflow: hidden; border-radius: 2px; box-shadow: 0 2px 18px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
+    .post-card:hover { transform: translateY(-5px); box-shadow: 0 10px 36px rgba(0,0,0,0.1); }
+    .card-img { height: 220px; overflow: hidden; }
+    .card-img div { height: 100%; transition: transform 0.5s; }
+    .post-card:hover .card-img div { transform: scale(1.04); }
+    .ph-1 { background: linear-gradient(135deg, #d4c5bc, #b0a09a); }
+    .ph-2 { background: linear-gradient(135deg, #c2bfcb, #9e98a8); }
+    .ph-3 { background: linear-gradient(135deg, #cfc8be, #b09e90); }
+    .ph-4 { background: linear-gradient(135deg, #c8d4cf, #9ab0aa); }
+    .ph-5 { background: linear-gradient(135deg, #d8cec5, #b8a898); }
+    .ph-6 { background: linear-gradient(135deg, #ccc5d0, #a89eb0); }
+    .card-body { padding: 1.5rem 1.4rem 1.8rem; }
+    .card-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 400; line-height: 1.3; margin-bottom: 0.6rem; }
+    .card-excerpt { font-size: 0.82rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+    .card-date { font-size: 0.68rem; color: var(--warm); letter-spacing: 0.06em; }
+
+    /* ABOUT */
+    .about-section { background: var(--white); padding: 6rem 3rem; }
+    .about-wrap { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .about-text h2 { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; line-height: 1.15; margin-bottom: 1.5rem; }
+    .about-text h2 em { font-style: italic; }
+    .about-text p { font-size: 0.9rem; color: var(--muted); line-height: 1.85; margin-bottom: 1rem; }
+    .about-img { height: 480px; overflow: hidden; border-radius: 2px; box-shadow: 0 8px 40px rgba(0,0,0,0.12); }
+    .about-img-ph { width: 100%; height: 100%; background: linear-gradient(160deg, #d5cec8 0%, #b0a8a0 50%, #cdc0b4 100%); }
+
+    /* QUOTE */
+    .quote-band { background: var(--footer); padding: 5rem 3rem; text-align: center; }
+    .quote-band blockquote { font-family: var(--serif); font-size: clamp(1.4rem, 3vw, 2rem); font-style: italic; font-weight: 300; color: #fff; max-width: 700px; margin: 0 auto; line-height: 1.6; }
+    .quote-band cite { display: block; margin-top: 1.2rem; font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); font-style: normal; }
+
+    /* FOOTER */
+    footer { background: var(--footer); color: rgba(255,255,255,0.7); }
+    .footer-inner { max-width: var(--max); margin: 0 auto; padding: 4rem 3rem 2.5rem; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem; }
+    .footer-brand h3 { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; color: #fff; margin-bottom: 0.8rem; }
+    .footer-brand p { font-size: 0.82rem; line-height: 1.7; max-width: 260px; }
+    .footer-col h4 { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul li a { font-size: 0.82rem; color: rgba(255,255,255,0.65); transition: color 0.2s; }
+    .footer-col ul li a:hover { color: #fff; }
+    .footer-bottom { max-width: var(--max); margin: 0 auto; padding: 1.5rem 3rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: rgba(255,255,255,0.35); flex-wrap: wrap; gap: 0.5rem; }
+
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(248,245,240,0.97); overflow-y: auto; padding: 2rem 1.5rem 5rem; }
+    .modal-overlay.open { display: block; animation: fadeIn 0.3s ease; }
+    .modal-inner { max-width: 720px; margin: 0 auto; }
+    .modal-back { font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); background: none; border: none; cursor: pointer; padding: 0; margin-bottom: 3rem; display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
+    .modal-back:hover { color: var(--footer); }
+    .modal-cover { height: 360px; border-radius: 2px; margin-bottom: 2.5rem; }
+    .modal-title { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; line-height: 1.18; margin-bottom: 0.8rem; }
+    .modal-meta { font-size: 0.75rem; color: var(--warm); margin-bottom: 2.5rem; display: flex; gap: 1.2rem; }
+    .modal-body { font-size: 1rem; line-height: 1.9; color: #3a3430; }
+    .modal-body p { margin-bottom: 1.4rem; }
+    .modal-body h2 { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; margin: 2.5rem 0 1rem; }
+    .modal-body blockquote { border-left: 2px solid var(--accent); padding-left: 1.5rem; color: var(--muted); font-style: italic; font-family: var(--serif); font-size: 1.1rem; margin: 2rem 0; }
+
+    /* ANIMATIONS */
+    @keyframes heroIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(7px); } }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .featured { grid-template-columns: 1fr; }
+      .featured-img-ph { height: 300px; }
+      .post-grid { grid-template-columns: 1fr 1fr; }
+      .about-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-img { height: 300px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-content { padding: 0 1.5rem 3.5rem; }
+      .featured-wrap, .grid-section, .inner { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .about-section { padding: 4rem 1.25rem; }
+      .post-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.25rem 2rem; }
+      .footer-bottom { padding: 1.2rem 1.25rem; }
+      .quote-band { padding: 3.5rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" onclick="toggleNav()">✕</button>
+  <a href="#" onclick="toggleNav()">Home</a>
+  <a href="#posts" onclick="toggleNav()">Posts</a>
+  <a href="#about" onclick="toggleNav()">About</a>
+  <a href="#contact" onclick="toggleNav()">Contact</a>
+</div>
+
+<!-- Article Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-inner">
+    <button class="modal-back" onclick="closeModal()">← Back to Blog</button>
+    <div class="modal-cover" id="modal-cover"></div>
+    <div class="post-cat" id="modal-cat"></div>
+    <h1 class="modal-title" id="modal-title"></h1>
+    <div class="modal-meta" id="modal-meta"></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <nav>
+    <div class="nav-logo">Your Name <!-- ✏️ 改成你的名字 --></div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#posts">Posts</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="#" class="nav-cta">Gallery</a>
+    </div>
+    <div class="hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!--
+    ✏️ 替换背景图：
+    1. 删除下面的 .hero-gradient 这行
+    2. 取消注释 img 标签
+    3. 把 hero.jpg 换成你的图片文件名（放在同一文件夹）
+  -->
+  <div class="hero-gradient"></div>
+  <!-- <img class="hero-bg" src="hero.jpg" alt="Hero" /> -->
+
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Welcome to my corner of the internet</p>
+    <h1 class="hero-title">Welcome to<br><em>My Blog</em></h1>
+    <div class="hero-buttons">
+      <a href="#posts" class="btn btn-outline">✦ Read my posts</a>
+      <a href="#about" class="btn btn-ghost">About me</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- FEATURED POST -->
+<div class="featured-wrap reveal" id="posts">
+  <div class="inner" style="padding: 0;">
+    <div class="featured" onclick="openModal(0)">
+      <div class="featured-img-ph ph-hero"></div>
+      <!--
+        ✏️ 替换文章封面图：
+        <img src="featured.jpg" style="height:520px;object-fit:cover;width:100%">
+      -->
+      <div class="featured-body">
+        <div class="post-cat">✦ Featured Post</div>
+        <h2 class="post-title"><em>Ever you will</em><br>find your path</h2>
+        <p class="post-excerpt">每一段旅程都是一次重新认识自己的机会。山顶的风景从不辜负攀登的努力，而真正的风景，往往在你停下来喘息的那一刻才悄悄显现。</p>
+        <button class="btn-read">Read the story →</button>
+        <div class="post-meta">
+          <span>June 2025</span><span>·</span>
+          <span>Travel &amp; Life</span><span>·</span><span>5 min read</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RECENT POSTS GRID -->
+<section class="grid-section">
+  <div class="inner" style="padding:0">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">✦</span>
+      <h2 class="section-title">Recent Posts</h2>
+      <p class="section-sub">Thoughts on life, learning, and everything in between.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="post-grid" id="post-grid"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-wrap reveal">
+    <div class="about-text">
+      <span class="section-eyebrow">✦ About me</span>
+      <h2>Hello, Browser</em></h2>
+      <!-- ✏️ 改成你自己的介绍 -->
+      <p>I'm a statistics student at the University of Wisconsin–Madison, passionate about deep learning, machine learning, time series, A/B Testing and making sense of complex data.</p>
+      <p>Beyond academics, I find joy in photography, streaming on Bilibili, and exploring new places. This blog is where I share what I'm learning and experiencing along the way.</p>
+      <a href="mailto:you@example.com" class="btn-read" style="margin-top:1.5rem">Say hello →</a>
+    </div>
+    <div class="about-img">
+      <!-- <img src="about.jpg" alt="About photo" style="height:100%;object-fit:cover"> -->
+      <div class="about-img-ph"></div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-band">
+  <blockquote>
+    "The world is a book, and those who do not travel read only one page."
+    <cite>— Saint Augustine</cite>
+  </blockquote>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>Your Name <!-- ✏️ --></h3>
+      <p>A personal blog about statistics, machine learning, travel, and life.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Recent Posts</h4>
+      <ul id="footer-posts"></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="https://github.com/ysd9451" target="_blank">GitHub</a></li>
+        <li><a href="https://space.bilibili.com/379359263" target="_blank">Bilibili</a></li>
+        <li><a href="ysd1356907625@gmail.com">Email</a></li>
+        <!-- <li><a href="#">Instagram</a></li> -->
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Shengdong Yao. All rights reserved.</span>
+    <span>Hosted on GitHub Pages</span>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════
+// ✏️  在这里编辑你的文章内容
+// ══════════════════════════════════════════
+const posts = [
+  {
+    cat: "Deep Learning",
+    title: "用 KAN 模拟电网：暑期实习记录",
+    excerpt: "Kolmogorov–Arnold Networks 能否替代 MLP 做科学计算？我在北大 AI for Science 的探索。",
+    date: "Jun 2025", read: "6 min read", ph: "ph-1",
+    body: `<p>今年夏天在北大 AI for Science Institute 做了一段关于 Kolmogorov–Arnold Networks 的研究。</p>
+<p>KAN 的核心思想是把传统 MLP 的固定激活函数换成可学习的样条函数，使得网络在理论上更具可解释性。</p>
+<blockquote>"科学机器学习的目标不只是拟合数据，而是发现数据背后的结构。"</blockquote>
+<h2>主要挑战</h2>
+<p>样条的阶数和网格分辨率对结果影响很大。另外，同等参数量下 KAN 比 MLP 慢约 3–5 倍。即便如此，在小样本、强物理约束的场景下，KAN 的拟合质量仍然令人印象深刻。</p>`
+  },
+  {
+    cat: "Statistics",
+    title: "ARIMA vs GARCH：时间序列建模笔记",
+    excerpt: "STAT 461 课程中对波动率建模的思考——ARIMA 描述均值，GARCH 描述方差。",
+    date: "Mar 2025", read: "4 min read", ph: "ph-2",
+    body: `<p>ARIMA 描述均值过程，GARCH 描述方差过程。两者分工明确，在实际金融数据中往往需要联合使用。</p>
+<h2>GARCH(1,1) 的直觉</h2>
+<p>σ²_t = ω + α·ε²_{t-1} + β·σ²_{t-1}。α 控制新信息冲击，β 控制历史波动的持续性。</p>
+<blockquote>金融市场"波动率聚集"现象的数学来源，正是这个简洁的递推公式。</blockquote>
+<p>在 R 中用 rugarch 包可以方便地拟合和预测，但模型选择仍需结合 AIC/BIC 和残差诊断。</p>`
+  },
+  {
+    cat: "Personal",
+    title: "为什么我从数据科学转到统计学",
+    excerpt: "关于理论基础与工程能力之间张力的思考，以及转专业后的真实感受。",
+    date: "Jan 2025", read: "5 min read", ph: "ph-3",
+    body: `<p>很多人问我为什么要转专业。数据科学不香吗？</p>
+<p>香。但我发现自己越来越想知道"为什么有效"，而不只是"怎么用"。统计学提供的是一套关于不确定性的严格语言。</p>
+<blockquote>"了解工具的局限，和了解工具的用法，同样重要。"</blockquote>
+<p>转专业之后最直接的感受：数学变难了，但代码写得更自信了，因为你知道自己在做什么。</p>`
+  },
+  {
+    cat: "Research",
+    title: "冰壶策略分析：最优 Power Play 时机",
+    excerpt: "用 Expected Points 和 Win Probability 模型寻找混合双打冰壶的最优进攻时机。",
+    date: "Dec 2024", read: "7 min read", ph: "ph-4",
+    body: `<p>冰壶是一项充满战略性的运动。这篇文章记录了我在 CSAS Data Challenge 中的分析工作。</p>
+<h2>核心问题</h2>
+<p>混合双打冰壶中，何时使用 Power Play 能最大化胜率？我们构建了 Expected Points 模型量化期望得分，结合 Win Probability 曲线反推最优触发时机。</p>
+<p>结论：劣势第 5–7 局触发 Power Play 的效益最高。</p>`
+  },
+  {
+    cat: "Life",
+    title: "Madison 的四季：一个留学生的观察",
+    excerpt: "威斯康星的冬天有多冷？春天有多美？用文字记录这座湖边小城的日常。",
+    date: "Oct 2024", read: "3 min read", ph: "ph-5",
+    body: `<p>Madison 是一座被两个湖环抱的大学城。Mendota 湖和 Monona 湖在不同季节呈现完全不同的面貌。</p>
+<p>冬天湖面会结冰，人们在上面钓鱼、开雪地摩托。第一次看到这个景象时我以为自己在看科幻片。</p>
+<blockquote>春天的 State Street 樱花盛开，和北京玉渊潭一样美，但更安静。</blockquote>
+<p>如果你也要来 Madison，记得带够厚度的羽绒服。</p>`
+  }
+];
+
+// Featured post data
+const featured = {
+  cat: "Featured Post",
+  title: "Ever you will find your path",
+  date: "Jun 2025", read: "5 min read", ph: "ph-hero",
+  body: `<p>每一段旅程都是一次重新认识自己的机会。山顶的风景从不辜负攀登的努力，而真正的风景，往往在你停下来喘息的那一刻才悄悄显现。</p>
+<blockquote>登山的意义不只是到达山顶，而是你在途中变成了什么样的人。</blockquote>
+<h2>关于出发</h2>
+<p>我曾经以为旅行需要足够的时间和钱。后来发现，大多数出发只需要一个决定。</p>`
+};
+
+const allPosts = [featured, ...posts];
+
+// Render cards
+const grid = document.getElementById('post-grid');
+const footerList = document.getElementById('footer-posts');
+posts.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'post-card reveal';
+  card.style.transitionDelay = (i * 0.07) + 's';
+  card.onclick = () => openModal(i + 1);
+  card.innerHTML = `<div class="card-img"><div class="${p.ph}"></div></div>
+    <div class="card-body">
+      <div class="post-cat">${p.cat}</div>
+      <h3 class="card-title">${p.title}</h3>
+      <p class="card-excerpt">${p.excerpt}</p>
+      <div class="card-date">${p.date} · ${p.read}</div>
+    </div>`;
+  grid.appendChild(card);
+  if (i < 4) {
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="#" onclick="openModal(${i+1});return false">${p.title}</a>`;
+    footerList.appendChild(li);
+  }
+});
+
+// Modal
+function openModal(idx) {
+  const p = allPosts[idx];
+  document.getElementById('modal-cat').textContent = p.cat;
+  document.getElementById('modal-title').textContent = p.title;
+  document.getElementById('modal-meta').innerHTML = `<span>${p.date}</span><span>·</span><span>${p.read}</span>`;
+  document.getElementById('modal-body').innerHTML = p.body;
+  const cover = document.getElementById('modal-cover');
+  cover.className = 'modal-cover ' + p.ph;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modal').scrollTop = 0;
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function toggleNav() { document.getElementById('mobileNav').classList.toggle('open'); }
+
+// Scroll reveal
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
