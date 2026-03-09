@@ -189,7 +189,7 @@
 <!-- HERO -->
 <section class="hero">
   <nav>
-    <div class="nav-logo">Your Name <!-- ✏️ 改成你的名字 --></div>
+    <div class="nav-logo">Shengdong Yao </div>
     <div class="nav-links">
       <a href="#">Home</a>
       <a href="#posts">Posts</a>
@@ -208,8 +208,8 @@
     2. 取消注释 img 标签
     3. 把 hero.jpg 换成你的图片文件名（放在同一文件夹）
   -->
-  <div class="hero-gradient"></div>
-  <!-- <img class="hero-bg" src="hero.jpg" alt="Hero" /> -->
+  <!--<div class="hero-gradient"></div>-->
+  <img class="hero-bg" src="rocket.jpg" alt="Hero" />
 
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -231,10 +231,9 @@
   <div class="inner" style="padding: 0;">
     <div class="featured" onclick="openModal(0)">
       <div class="featured-img-ph ph-hero"></div>
-      <!--
-        ✏️ 替换文章封面图：
-        <img src="featured.jpg" style="height:520px;object-fit:cover;width:100%">
-      -->
+      <!--替换文章封面图 -->
+        <img src="rocket.jpg" style="height:520px;object-fit:cover;width:100%">
+
       <div class="featured-body">
         <div class="post-cat">✦ Featured Post</div>
         <h2 class="post-title"><em>Ever you will</em><br>find your path</h2>
@@ -321,56 +320,22 @@
 // ══════════════════════════════════════════
 const posts = [
   {
-    cat: "Deep Learning",
-    title: "用 KAN 模拟电网：暑期实习记录",
-    excerpt: "Kolmogorov–Arnold Networks 能否替代 MLP 做科学计算？我在北大 AI for Science 的探索。",
-    date: "Jun 2025", read: "6 min read", ph: "ph-1",
-    body: `<p>今年夏天在北大 AI for Science Institute 做了一段关于 Kolmogorov–Arnold Networks 的研究。</p>
-<p>KAN 的核心思想是把传统 MLP 的固定激活函数换成可学习的样条函数，使得网络在理论上更具可解释性。</p>
-<blockquote>"科学机器学习的目标不只是拟合数据，而是发现数据背后的结构。"</blockquote>
-<h2>主要挑战</h2>
-<p>样条的阶数和网格分辨率对结果影响很大。另外，同等参数量下 KAN 比 MLP 慢约 3–5 倍。即便如此，在小样本、强物理约束的场景下，KAN 的拟合质量仍然令人印象深刻。</p>`
-  },
-  {
-    cat: "Statistics",
-    title: "ARIMA vs GARCH：时间序列建模笔记",
-    excerpt: "STAT 461 课程中对波动率建模的思考——ARIMA 描述均值，GARCH 描述方差。",
-    date: "Mar 2025", read: "4 min read", ph: "ph-2",
-    body: `<p>ARIMA 描述均值过程，GARCH 描述方差过程。两者分工明确，在实际金融数据中往往需要联合使用。</p>
-<h2>GARCH(1,1) 的直觉</h2>
-<p>σ²_t = ω + α·ε²_{t-1} + β·σ²_{t-1}。α 控制新信息冲击，β 控制历史波动的持续性。</p>
-<blockquote>金融市场"波动率聚集"现象的数学来源，正是这个简洁的递推公式。</blockquote>
-<p>在 R 中用 rugarch 包可以方便地拟合和预测，但模型选择仍需结合 AIC/BIC 和残差诊断。</p>`
-  },
-  {
-    cat: "Personal",
-    title: "为什么我从数据科学转到统计学",
-    excerpt: "关于理论基础与工程能力之间张力的思考，以及转专业后的真实感受。",
-    date: "Jan 2025", read: "5 min read", ph: "ph-3",
-    body: `<p>很多人问我为什么要转专业。数据科学不香吗？</p>
-<p>香。但我发现自己越来越想知道"为什么有效"，而不只是"怎么用"。统计学提供的是一套关于不确定性的严格语言。</p>
-<blockquote>"了解工具的局限，和了解工具的用法，同样重要。"</blockquote>
-<p>转专业之后最直接的感受：数学变难了，但代码写得更自信了，因为你知道自己在做什么。</p>`
-  },
-  {
-    cat: "Research",
-    title: "冰壶策略分析：最优 Power Play 时机",
-    excerpt: "用 Expected Points 和 Win Probability 模型寻找混合双打冰壶的最优进攻时机。",
-    date: "Dec 2024", read: "7 min read", ph: "ph-4",
-    body: `<p>冰壶是一项充满战略性的运动。这篇文章记录了我在 CSAS Data Challenge 中的分析工作。</p>
-<h2>核心问题</h2>
-<p>混合双打冰壶中，何时使用 Power Play 能最大化胜率？我们构建了 Expected Points 模型量化期望得分，结合 Win Probability 曲线反推最优触发时机。</p>
-<p>结论：劣势第 5–7 局触发 Power Play 的效益最高。</p>`
-  },
-  {
     cat: "Life",
     title: "Madison 的四季：一个留学生的观察",
     excerpt: "威斯康星的冬天有多冷？春天有多美？用文字记录这座湖边小城的日常。",
     date: "Oct 2024", read: "3 min read", ph: "ph-5",
+    images: [
+    "photos/madison_1.jpg",   // 相对路径
+    "photos/madison_2.jpg",
+    "photos/madison_3.jpg",
+    "photos/madison_4.jpg",
+  ],
     body: `<p>Madison 是一座被两个湖环抱的大学城。Mendota 湖和 Monona 湖在不同季节呈现完全不同的面貌。</p>
-<p>冬天湖面会结冰，人们在上面钓鱼、开雪地摩托。第一次看到这个景象时我以为自己在看科幻片。</p>
-<blockquote>春天的 State Street 樱花盛开，和北京玉渊潭一样美，但更安静。</blockquote>
-<p>如果你也要来 Madison，记得带够厚度的羽绒服。</p>`
+    <p>春天<P>
+    <p>夏天<P>
+    <p>秋天的红叶，在湖风中摇摆，发出沙沙的响声。<p>
+    <p>冬天湖面会结冰，人们在上面钓鱼、开雪地摩托。第一次看到这个景象时我以为自己在看科幻片。</p>
+    <p>如果你也要来 Madison，记得带够厚度的羽绒服。</p>`
   }
 ];
 
@@ -379,10 +344,11 @@ const featured = {
   cat: "Featured Post",
   title: "Ever you will find your path",
   date: "Jun 2025", read: "5 min read", ph: "ph-hero",
-  body: `<p>每一段旅程都是一次重新认识自己的机会。山顶的风景从不辜负攀登的努力，而真正的风景，往往在你停下来喘息的那一刻才悄悄显现。</p>
+  body: `
 <blockquote>登山的意义不只是到达山顶，而是你在途中变成了什么样的人。</blockquote>
 <h2>关于出发</h2>
-<p>我曾经以为旅行需要足够的时间和钱。后来发现，大多数出发只需要一个决定。</p>`
+<p>我曾经以为旅行需要足够的时间和钱。后来发现，大多数出发只需要一个决定。</p>
+<p>每一段旅程都是一次重新认识自己的机会。山顶的风景从不辜负攀登的努力，而真正的风景，往往在你停下来喘息的那一刻才悄悄显现。</p>`
 };
 
 const allPosts = [featured, ...posts];
